@@ -102,14 +102,18 @@ public class MainScene: Scene {
         };
     }
 
-    private void LoadHeightmap() { // TODO: Dela upp heightmapen i olika meshes.
+    private void LoadHeightmap() {
         var heightmap = Game1.Inst.Content.Load<Texture2D>("Textures/US_Canyon");
+        var indices   = new List<int>();
+        var pixels    = new Color[heightmap.Width*heightmap.Height];
+        var vertices  = new List<VertexPositionNormalTexture>();
 
-        var pixels = new Color[heightmap.Width*heightmap.Height];
+        // Read heightmap color data into the pixels array.
         heightmap.GetData<Color>(pixels);
 
-        var indices = new List<int>();
-        var vertices = new List<VertexPositionNormalTexture>();
+
+        // Create two 1D-arrays containing all vertices and indices,
+        // respectively.
 
         var q = 2;
         for (var j = 0; j < heightmap.Height/q; j++) {
@@ -133,8 +137,13 @@ public class MainScene: Scene {
                 indices.Add(a);
                 indices.Add(c);
                 indices.Add(d);
+
+                //System.Console.WriteLine(a + ", " + b + ", " + c + ", " + d + " - gammalt");
+                //System.Threading.Thread.Sleep(1000);
             }
         }
+
+        // Compute smooth normals.
 
         var v = vertices.ToArray();
 
@@ -155,24 +164,45 @@ public class MainScene: Scene {
             v[i].Normal.Normalize();
         }
 
-        VertexBuffer vb = new VertexBuffer(Game1.Inst.GraphicsDevice, typeof (VertexPositionNormalTexture), v.Length, BufferUsage.WriteOnly);
-        vb.SetData<VertexPositionNormalTexture>(v);
-        IndexBuffer ib = new IndexBuffer(Game1.Inst.GraphicsDevice, typeof (int), indices.Count, BufferUsage.WriteOnly);
-        ib.SetData(indices.ToArray());
+        // sqrt of number of meshes to create lol
+        var num = 16;
 
-        heightmap.Dispose();
+        // aliases
+        var g = Game1.Inst.GraphicsDevice;
 
-        var cmp = new CHeightmap {
-            VertexBuffer = vb,
-            IndexBuffer = ib,
-            NumVertices = vertices.Count,
-            NumTriangles = indices.Count
-        };
+        // HAVE FUN DEBUGGING THIS ROFL!!! H4XX0RZ $UPR3M3!!!!1
+        for(var j=0;j<num;j++){for(var i=0;i<num;i++){var loli=(i==num-1)?1:0;
+        var il=new List<int>();var ww=heightmap.Width/q;var a0=0;var baseidx=i*
+        heightmap.Width/(num*q)+j*heightmap.Height/(num*q)*(heightmap.Width/q);
+        var lolj=(j==num-1)?1:0;var vl=new List<VertexPositionNormalTexture>();
+        for(var b=0;b<=heightmap.Height/(num*q)-lolj;b++){for(var a=0;a<=
+        heightmap.Width/(num*q)-loli;a++){var i0=a+b*(ww);var i1=(a+1)+b*(ww);
+        var i2=(a+1)+(b+1)*(ww);var i3=a+(b+1)*(ww);a0+=4;il.Add(a0);vl.Add(v[
+        baseidx+i0]);il.Add(a0+1);vl.Add(v[baseidx+i1]); il.Add(a0+2);il.Add(a0)
+        ;vl.Add(v[baseidx+i2]);il.Add(a0+2);il.Add(a0+3);vl.Add(v[baseidx+i3]);}
+        }
 
-        var e = new Entity();
-        e.AddComponents(cmp);
+                var vbo = new VertexBuffer(g, typeof (VertexPositionNormalTexture), vl.Count, BufferUsage.WriteOnly);
+                var ibo = new  IndexBuffer(g, typeof (int    /* heylo lol */     ), il.Count, BufferUsage.WriteOnly);
 
-        AddEntity(e);
+                vbo.SetData<VertexPositionNormalTexture>(vl.ToArray());
+                ibo.SetData   /* align tics */          (il.ToArray());
+
+
+                //System.Console.WriteLine(vl.Count + ", " + il.Count);
+                var cmp = new CHeightmap {
+                    VertexBuffer = vbo,
+                    IndexBuffer = ibo,
+                    NumVertices = vl.Count,
+                    NumTriangles = il.Count/3
+                };
+
+                var e = new Entity();
+                e.AddComponents(cmp);
+
+                AddEntity(e);
+            }
+        }
     }
 }
 
