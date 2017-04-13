@@ -14,14 +14,6 @@ using BoundingGeometries;
  * CLASSES
  *------------------------------------*/
 
-// TODO: Move to own file
-public class CBody: Component {
-    public Vector3 Position;
-    public Vector3 Velocity;
-    public float Heading;
-    public BoundingGeometry BoundingGeometry;
-}
-
 /// <summary>Contains state information about a model.</summary>
 public class CModel: Component {
     /*--------------------------------------
@@ -33,17 +25,6 @@ public class CModel: Component {
 
     /// <summary>Gets or sets the model transform.</summary>
     public Matrix Transform { get; set; } = Matrix.Identity;
-}
-
-// TODO: Move to own file.
-public class CHeightmap: Component {
-    public IndexBuffer IndexBuffer { get; set; }
-    public VertexBuffer VertexBuffer { get; set; }
-
-    public Matrix Transform { get; set; } = Matrix.Identity;
-
-    public int NumVertices { get; set; }
-    public int NumTriangles { get; set; }
 }
 
 }
