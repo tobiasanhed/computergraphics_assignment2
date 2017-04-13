@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Core;
+using BoundingGeometries;
 
 /*--------------------------------------
  * CLASSES
@@ -18,6 +19,7 @@ public class CBody: Component {
     public Vector3 Position;
     public Vector3 Velocity;
     public float Heading;
+    public BoundingGeometry BoundingGeometry;
 }
 
 /// <summary>Contains state information about a model.</summary>
