@@ -102,7 +102,7 @@ public class MainScene: Scene {
         };
     }
 
-    private void LoadHeightmap() {
+    private void LoadHeightmap() { // TODO: Dela upp heightmapen i olika meshes.
         var heightmap = Game1.Inst.Content.Load<Texture2D>("Textures/US_Canyon");
 
         var pixels = new Color[heightmap.Width*heightmap.Height];
