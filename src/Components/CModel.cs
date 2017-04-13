@@ -1,4 +1,4 @@
-namespace CG_A1.Components {
+namespace CG_A2.Components {
 
 /*--------------------------------------
  * USINSG

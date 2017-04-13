@@ -1,4 +1,4 @@
-namespace CG_A1.Scenes {
+namespace CG_A2.Scenes {
 
 /*--------------------------------------
  * USINGS
@@ -32,12 +32,12 @@ public class MainScene: Scene {
                       new     LogicSubsystem(),
                       new RenderingSubsystem());
 
-        var chopper = new Entity();
+        //var chopper = new Entity();
 
-        var model = Game1.Inst.Content.Load<Model>("Models/Chopper");
+        //var model = Game1.Inst.Content.Load<Model>("Models/Chopper");
 
         // TODO: This is crap.
-        CModel modmod;
+        /*CModel modmod;
         var cntrls = new CControls { };
         var controls = cntrls.Controls;
         chopper.AddComponents(
@@ -76,7 +76,7 @@ public class MainScene: Scene {
                 }
             });
 
-        AddEntity(chopper);
+        AddEntity(chopper);*/
 
         LoadHeightmap();
 
@@ -111,7 +111,6 @@ public class MainScene: Scene {
         var indices = new List<int>();
         var vertices = new List<VertexPositionNormalTexture>();
 
-        var k = (int)0;
         var q = 2;
         for (var j = 0; j < heightmap.Height/q; j++) {
             for (var i = 0; i < heightmap.Width/q; i++) {

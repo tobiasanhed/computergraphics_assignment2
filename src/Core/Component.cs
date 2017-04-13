@@ -1,4 +1,4 @@
-namespace CG_A1.Core {
+namespace CG_A2.Core {
 
 /*--------------------------------------
  * CLASSES

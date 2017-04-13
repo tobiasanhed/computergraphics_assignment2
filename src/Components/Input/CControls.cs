@@ -1,4 +1,4 @@
-namespace CG_A1.Components.Input {
+namespace CG_A2.Components.Input {
 
 /*--------------------------------------
  * USINSG
