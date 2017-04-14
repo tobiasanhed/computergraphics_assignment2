@@ -15,6 +15,8 @@ using Components.Input;
 using Core;
 using Subsystems;
 
+using static System.Math;
+
 /*--------------------------------------
  * CLASSES
  *------------------------------------*/
@@ -189,12 +191,27 @@ public class MainScene: Scene {
                 ibo.SetData   /* align tics */          (il.ToArray());
 
 
+                var minP = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+                var maxP = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+
+
+                // absolutely retarded way of finding min and max vertices (in reality, we already know the squares of each segments lol)
+                foreach (var p in vl) {
+                    minP.X = (float)Min(minP.X, p.Position.X);
+                    minP.Y = (float)Min(minP.Y, p.Position.Y);
+                    minP.Z = (float)Min(minP.Z, p.Position.Z);
+                    maxP.X = (float)Max(maxP.X, p.Position.X);
+                    maxP.Y = (float)Max(maxP.Y, p.Position.Y);
+                    maxP.Z = (float)Max(maxP.Z, p.Position.Z);
+                }
+
                 //System.Console.WriteLine(vl.Count + ", " + il.Count);
                 var cmp = new CHeightmap {
                     VertexBuffer = vbo,
                     IndexBuffer = ibo,
                     NumVertices = vl.Count,
-                    NumTriangles = il.Count/3
+                    NumTriangles = il.Count/3,
+                    BoundingBox = new BoundingBox(minP, maxP)
                 };
 
                 var e = new Entity();

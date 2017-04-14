@@ -72,6 +72,7 @@ public class RenderingSubsystem: Subsystem {
             ((LookAtCamera)Camera).Target = new Vector3(m.M41, m.M42*0.0f, m.M43);
 
 
+
             Matrix[] transforms = new Matrix[model.Model.Bones.Count];
             model.Model.CopyAbsoluteBoneTransformsTo(transforms);
             var temp = transforms[3];
@@ -96,8 +97,18 @@ public class RenderingSubsystem: Subsystem {
 
         }
 
+
+
+        var viewFrustum = new BoundingFrustum(Camera.ViewMatrix() * Camera.Projection);
+
+
         foreach (var entity in Scene.GetEntities<CHeightmap>()) {
             var heightmap = entity.GetComponent<CHeightmap>();
+
+            if (!viewFrustum.Intersects(heightmap.BoundingBox)) {
+                continue;
+                // outside camera view
+            }
 
             Game1.Inst.GraphicsDevice.SetVertexBuffer(heightmap.VertexBuffer);
 			Game1.Inst.GraphicsDevice.Indices = heightmap.IndexBuffer;

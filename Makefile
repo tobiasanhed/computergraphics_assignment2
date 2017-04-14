@@ -103,5 +103,5 @@ pre-content:
 
 content: pre-content $(CONTENT)
 	mkdir -p $(BINDIR)
-	mgcb -@:$(CONTENTFILE)
+	mgcb -@:$(CONTENTFILE) > /dev/null
 	rm -f $(CONTENTFILE)

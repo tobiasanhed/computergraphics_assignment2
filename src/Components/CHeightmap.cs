@@ -14,6 +14,8 @@ public class CHeightmap: Component {
 
     public int NumVertices { get; set; }
     public int NumTriangles { get; set; }
+
+    public BoundingBox BoundingBox { get; set; }
 }
 
 }
