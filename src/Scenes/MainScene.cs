@@ -85,13 +85,38 @@ public class MainScene: Scene {
     	base.Init();
     }
 
-    private VertexPositionNormalTexture CreateHeightmapVertex(Color[] pixels, int width, int height, int i, int j) {
-        var index = i + j*width;
+    private float GetZ(Color[] pixels, int width, int height, int x, int y) {
+        var index = x + y*width;
         var color = pixels[index];
+        var z     = color.R / 255.0f - 0.5f + 0.7f;
 
+        return z;
+    }
+
+    private float GetSmoothedZ(Color[] pixels, int width, int height, int x, int y) {
+        var z = 0.0f;
+        var n = 0;
+        const int k = 5;
+
+        for (var i = -k; i <= k; i++) {
+            for (var j = -k; j <= k; j++) {
+                var xi = x+i;
+                var yj = y+j;
+
+                if (xi >= 0 && xi < width && yj >= 0 && yj < height) {
+                    z += GetZ(pixels, width, height, xi, yj);
+                    n++;
+                }
+            }
+        }
+
+        return z/n;
+    }
+
+    private VertexPositionNormalTexture CreateHeightmapVertex(Color[] pixels, int width, int height, int i, int j) {
         var x = (float)i / (float)width  - 0.5f;
         var y = (float)j / (float)height - 0.5f;
-        var z = color.R / 255.0f         - 0.5f + 0.7f;
+        var z = GetSmoothedZ(pixels, width, height, i,  j);
 
         //System.Console.WriteLine("{0}, {1} {2}", x, y, z);
 
@@ -172,17 +197,16 @@ public class MainScene: Scene {
         // aliases
         var g = Game1.Inst.GraphicsDevice;
 
-        // HAVE FUN DEBUGGING THIS ROFL!!! H4XX0RZ $UPR3M3!!!!1
-        for(var j=0;j<num;j++){for(var i=0;i<num;i++){var loli=(i==num-1)?1:0;
-        var il=new List<int>();var ww=heightmap.Width/q;var a0=0;var baseidx=i*
-        heightmap.Width/(num*q)+j*heightmap.Height/(num*q)*(heightmap.Width/q);
-        var lolj=(j==num-1)?1:0;var vl=new List<VertexPositionNormalTexture>();
-        for(var b=0;b<=heightmap.Height/(num*q)-lolj;b++){for(var a=0;a<=
-        heightmap.Width/(num*q)-loli;a++){var i0=a+b*(ww);var i1=(a+1)+b*(ww);
-        var i2=(a+1)+(b+1)*(ww);var i3=a+(b+1)*(ww);a0+=4;il.Add(a0);vl.Add(v[
-        baseidx+i0]);il.Add(a0+1);vl.Add(v[baseidx+i1]); il.Add(a0+2);il.Add(a0)
-        ;vl.Add(v[baseidx+i2]);il.Add(a0+2);il.Add(a0+3);vl.Add(v[baseidx+i3]);}
-        }
+        // split heightmap into segments... LOL!
+for(var  j                   =0;j<num;j++){for        (var i=0;                 i<num;i++)    {    var loli=(i==num-1)?1:0;
+var il=new                 List<int>();var ww=        heightmap.                Width/q;var    a0=0;      var baseidx=i*
+heightmap.               Width/          (num*q)+j    *heightmap                .Height/(num*q)*      (heightmap.     Width     /q);
+var lolj=(               j==num          -1)?1:0;var  vl=new List               <       VertexPositionNormalTexture          >();
+for(var b=               0;b<= /* :-) */  heightmap.  Height/(num               *q)-lolj     ;b++)    {for(var a=0;         a<=
+heightmap.               Width/          (num*q)-     loli;a++){                var i0=a+     b*(ww);var   i1    =     (  a +1)+b*(ww);
+var i2=(a+1)+(b+1)*(ww)  ;var i3        =a+(b+1)*     (ww);a0+=4;il.Add(a0)     ;vl.Add(             v     [
+baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    .         Add(a0        )
+;vl.Add(v[baseidx+i2]);      il.Add(a0+2);            il.Add(a0+3);vl.Add(v[    baseidx+      i3]     )    ;}   }
 
                 var vbo = new VertexBuffer(g, typeof (VertexPositionNormalTexture), vl.Count, BufferUsage.WriteOnly);
                 var ibo = new  IndexBuffer(g, typeof (int    /* heylo lol */     ), il.Count, BufferUsage.WriteOnly);
