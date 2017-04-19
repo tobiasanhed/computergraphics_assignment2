@@ -77,6 +77,10 @@ public class RenderingSubsystem: Subsystem {
             var yDist = -20f;
             var h = b.Heading;
 
+            // Vi positionerar kamera utifrån karaktärens heading (h), p = karaktärerns position, c = kamerans position, t = kamerans target, dist = avstånd till objektet
+            // yDist = höjd för kameran, samt t = p -- alltså att kamerans target är position för karaktären.
+            // Då gäller c=p-[d*sin(h + pi/2), y, (-d)*cos(h + pi/2)]
+
             c = Vector3.Subtract(p, new Vector3((float)(dist * Math.Sin(h + Math.PI * 0.5f)), yDist, (float)((-dist) * Math.Cos(h + Math.PI * 0.5f))));
 
             ((LookAtCamera)Camera).Target = p;
