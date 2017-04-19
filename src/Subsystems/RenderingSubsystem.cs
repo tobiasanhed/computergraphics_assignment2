@@ -103,9 +103,6 @@ public class RenderingSubsystem: Subsystem {
         
             foreach (var mesh in model.Model.Meshes) {
                 foreach (BasicEffect effect in mesh.Effects) {
-                    effect.TextureEnabled = true;
-                    effect.Texture = pagaFaceTexture;
-                    effect.EmissiveColor = Vector3.One * 0.5f; // Make face brighter :-)
                     effect.EnableDefaultLighting();
                     effect.World = transforms[mesh.ParentBone.Index] * m;
                     effect.View = Camera.ViewMatrix();
