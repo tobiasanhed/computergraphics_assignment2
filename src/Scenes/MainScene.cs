@@ -1,31 +1,33 @@
 namespace CG_A2.Scenes {
 
-/*--------------------------------------
- * USINGS
- *------------------------------------*/
+    /*--------------------------------------
+     * USINGS
+     *------------------------------------*/
 
-using System.Collections.Generic;
+    using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
 
-using Components;
-using Components.Input;
-using Core;
-using Subsystems;
+    using Components;
+    using Components.Input;
+    using Core;
+    using Subsystems;
 
-using static System.Math;
+    using static System.Math;
+    using System;
 
-/*--------------------------------------
- * CLASSES
- *------------------------------------*/
+    /*--------------------------------------
+     * CLASSES
+     *------------------------------------*/
 
-public class MainScene: Scene {
+    public class MainScene: Scene {
     /*--------------------------------------
      * PUBLIC METHODS
      *------------------------------------*/
-
+    private Random random = new Random();
+    
     /// <summary>Performs initialization logic.</summary>
     public override void Init() {
     	AddSubsystems(new      BodySubsystem(),
@@ -62,7 +64,7 @@ public class MainScene: Scene {
                     controls["Turn"] = 0.0f;
                 }
             },
-            new CModel { Model = Game1.Inst.Content.Load<Model>("Models/untitled") }            
+            new CModel { Model = Game1.Inst.Content.Load<Model>("Models/untitled"), IsTarget = true }            
         );
 
         AddEntity(model);
@@ -122,7 +124,7 @@ public class MainScene: Scene {
         var index = x + y*width;
         var color = pixels[index];
         var z     = color.R / 255.0f - 0.5f + 0.7f;
-
+        z *= 0.3f;
         return z;
     }
 
@@ -174,12 +176,15 @@ public class MainScene: Scene {
 
         // Create two 1D-arrays containing all vertices and indices,
         // respectively.
-
         var q = 2;
         for (var j = 0; j < heightmap.Height/q; j++) {
             for (var i = 0; i < heightmap.Width/q; i++) {
                 // skapa triangel med index 0, 1, 2
+                
                 var v0 = CreateHeightmapVertex(pixels, heightmap.Width, heightmap.Height, i*q, j*q);
+                if(random.NextDouble() < 0.001){
+                    CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
+                }
                 vertices.Add(v0);
             }
         }
@@ -277,6 +282,18 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
                 AddEntity(e);
             }
         }
+    }
+
+    private void CreateTree(float X, float Y, float Z){
+        var model = new Entity();
+        var modelPath = "Models/environmentmodel" + random.Next(1,4);
+
+        model.AddComponents(
+            new CBody { Position = new Vector3(X, Y, Z) },
+            new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false }            
+        );
+
+        AddEntity(model);        
     }
 }
 

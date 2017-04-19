@@ -73,7 +73,11 @@ public sealed class Entity {
 
     /// <summary>Gets the entity component of the specified type.</summary>
     public T GetComponent<T>() where T : Component {
+        try {
         return (T)m_Components[typeof (T)];
+        }catch(Exception e){
+            return null;
+        }
     }
 
     /// <summary>Checks whether the entity has a component of the specified

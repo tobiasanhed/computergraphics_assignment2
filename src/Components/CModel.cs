@@ -22,7 +22,7 @@ public class CModel: Component {
 
     /// <summary>Gets or sets the model.</summary>
     public Model Model { get; set; }
-
+    public bool IsTarget {get; set; }
     /// <summary>Gets or sets the model transform.</summary>
     public Matrix Transform { get; set; } = Matrix.Identity;
 }

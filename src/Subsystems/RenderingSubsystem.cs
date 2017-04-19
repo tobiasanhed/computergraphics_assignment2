@@ -52,7 +52,7 @@ public class RenderingSubsystem: Subsystem {
             var he2 = (float)Math.Cos(t*0.35f*3.141592653)*0.42f;
 
             var tilt2 = Matrix.Identity;
-            if(control.Controls.ContainsKey("Turn")){
+            if(control != null && control.Controls.ContainsKey("Turn")){
                 turnDelta += (control.Controls["Turn"] - turnDelta) * dt;
                 tilt2 = Matrix.CreateRotationZ(-turnDelta * 0.18f * 0.65f * b.Velocity.Length());
             }
@@ -69,31 +69,38 @@ public class RenderingSubsystem: Subsystem {
                 T = tilt2 * Matrix.CreateRotationY(-b.Heading-0.5f*3.141592653589f) * Matrix.CreateTranslation(b.Position.X, b.Position.Y+he1+he2, b.Position.Z);
             }
             var m = model.Transform * T;
-            //((LookAtCamera)Camera).Target = new Vector3(m.M41, m.M42*0.0f, m.M43);
-            //var ta = ((LookAtCamera)Camera).Target;
-            var p = b.Position;
-            var c = ((LookAtCamera)Camera).Position;
-            var dist = 60f;
-            var yDist = -20f;
-            var h = b.Heading;
 
-            // Vi positionerar kamera utifrån karaktärens heading (h), p = karaktärerns position, c = kamerans position, t = kamerans target, dist = avstånd till objektet
-            // yDist = höjd för kameran, samt t = p -- alltså att kamerans target är position för karaktären.
-            // Då gäller c=p-[d*sin(h + pi/2), y, (-d)*cos(h + pi/2)]
-
-            c = Vector3.Subtract(p, new Vector3((float)(dist * Math.Sin(h + Math.PI * 0.5f)), yDist, (float)((-dist) * Math.Cos(h + Math.PI * 0.5f))));
-
-            ((LookAtCamera)Camera).Target = p;
-            ((LookAtCamera)Camera).Position = c;
 
             Matrix[] transforms = new Matrix[model.Model.Bones.Count];
             model.Model.CopyAbsoluteBoneTransformsTo(transforms);
-            var temp = transforms[3];
-            transforms[1] *= Matrix.CreateRotationY(t*20f);
-            transforms[3] *= Matrix.CreateTranslation(-transforms[3].M41, -transforms[3].M42, -transforms[3].M43);
-            transforms[3] *= Matrix.CreateRotationX(t*-20f);
-            transforms[3] *= Matrix.CreateTranslation(temp.M41, temp.M42, temp.M43);
 
+            if(model.IsTarget){
+                //((LookAtCamera)Camera).Target = new Vector3(m.M41, m.M42*0.0f, m.M43);
+                //var ta = ((LookAtCamera)Camera).Target;
+                var p = b.Position;
+                var c = ((LookAtCamera)Camera).Position;
+                var dist = 60f;
+                var yDist = -20f;
+                var h = b.Heading;
+    
+                // Vi positionerar kamera utifrån karaktärens heading (h), p = karaktärerns position, c = kamerans position, t = kamerans target, dist = avstånd till objektet
+                // yDist = höjd för kameran, samt t = p -- alltså att kamerans target är position för karaktären.
+                // Då gäller c=p-[d*sin(h + pi/2), y, (-d)*cos(h + pi/2)]
+    
+                c = Vector3.Subtract(p, new Vector3((float)(dist * Math.Sin(h + Math.PI * 0.5f)), yDist, (float)((-dist) * Math.Cos(h + Math.PI * 0.5f))));
+    
+                ((LookAtCamera)Camera).Target = p;
+                ((LookAtCamera)Camera).Position = c;
+    
+                var temp = transforms[3];
+                transforms[1] *= Matrix.CreateRotationY(t*20f);
+                transforms[3] *= Matrix.CreateTranslation(-transforms[3].M41, -transforms[3].M42, -transforms[3].M43);
+                transforms[3] *= Matrix.CreateRotationX(t*-20f);
+                transforms[3] *= Matrix.CreateTranslation(temp.M41, temp.M42, temp.M43);
+            }            
+
+
+        
             foreach (var mesh in model.Model.Meshes) {
                 foreach (BasicEffect effect in mesh.Effects) {
                     effect.TextureEnabled = true;
@@ -104,7 +111,7 @@ public class RenderingSubsystem: Subsystem {
                     effect.View = Camera.ViewMatrix();
                     effect.Projection = Camera.Projection;
                 }
-
+    
                 mesh.Draw();
             }
 
