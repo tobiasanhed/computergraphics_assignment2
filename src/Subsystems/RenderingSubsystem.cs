@@ -69,9 +69,18 @@ public class RenderingSubsystem: Subsystem {
                 T = tilt2 * Matrix.CreateRotationY(-b.Heading-0.5f*3.141592653589f) * Matrix.CreateTranslation(b.Position.X, b.Position.Y+he1+he2, b.Position.Z);
             }
             var m = model.Transform * T;
-            ((LookAtCamera)Camera).Target = new Vector3(m.M41, m.M42*0.0f, m.M43);
+            //((LookAtCamera)Camera).Target = new Vector3(m.M41, m.M42*0.0f, m.M43);
+            //var ta = ((LookAtCamera)Camera).Target;
+            var p = b.Position;
+            var c = ((LookAtCamera)Camera).Position;
+            var dist = 60f;
+            var yDist = -20f;
+            var h = b.Heading;
 
+            c = Vector3.Subtract(p, new Vector3((float)(dist * Math.Sin(h + Math.PI * 0.5f)), yDist, (float)((-dist) * Math.Cos(h + Math.PI * 0.5f))));
 
+            ((LookAtCamera)Camera).Target = p;
+            ((LookAtCamera)Camera).Position = c;
 
             Matrix[] transforms = new Matrix[model.Model.Bones.Count];
             model.Model.CopyAbsoluteBoneTransformsTo(transforms);
@@ -135,7 +144,7 @@ public class RenderingSubsystem: Subsystem {
     public override void Init() {
         // Create a default camera.
         Camera = new LookAtCamera {
-            Position = new Vector3(-24, 18, 16)
+            //Position = new Vector3(-24, 18, 16)
         };
     }
 }

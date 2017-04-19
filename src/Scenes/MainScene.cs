@@ -33,6 +33,39 @@ public class MainScene: Scene {
                       new     InputSubsystem(),
                       new     LogicSubsystem(),
                       new RenderingSubsystem());
+        
+        var model = new Entity();
+        
+        var cntrls = new CControls { };
+        var controls = cntrls.Controls;
+
+        model.AddComponents(
+            new CBody { Velocity = new Vector3(0f, 0f, 1.0f) },
+            cntrls,
+            new CInput {
+                KeyMap = {
+                    { Keys.Up, () => {
+                          controls["Up"] = 1.0f;
+                      } },
+                    { Keys.Down, () => {
+                          controls["Up"] = -1.0f;
+                      } },
+                    { Keys.Left, () => {
+                          controls["Turn"] = -1.0f;
+                      } },
+                    { Keys.Right, () => {
+                          controls["Turn"] = 1.0f;
+                      } }
+                },
+                ResetControls = () => {
+                    controls["Up"] = 0.0f;
+                    controls["Turn"] = 0.0f;
+                }
+            },
+            new CModel { Model = Game1.Inst.Content.Load<Model>("Models/untitled") }            
+        );
+
+        AddEntity(model);
 
         //var chopper = new Entity();
 
