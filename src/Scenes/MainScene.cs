@@ -289,7 +289,7 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         var modelPath = "Models/environmentmodel" + random.Next(1,4);
 
         model.AddComponents(
-            new CBody { Position = new Vector3(X, Y, Z) },
+            new CBody { Position = new Vector3(X, Y, Z), Heading = (float)random.NextDouble()},
             new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false }            
         );
 
