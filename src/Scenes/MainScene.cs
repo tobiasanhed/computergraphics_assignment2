@@ -60,15 +60,15 @@ namespace CG_A2.Scenes {
                       new     InputSubsystem(),
                       new     LogicSubsystem(),
                       new RenderingSubsystem());
-        
+
         var humanChar = new Entity();
-        
+
         var cntrls = new CControls { };
         var controls = cntrls.Controls;
         Model model = CreateBoxFigure();
 
         humanChar.AddComponents(
-            new CBody { Velocity = new Vector3(0f, 0f, 1.0f) },
+            new CBody { Velocity = new Vector3(0f, 0f, 1.0f), Movable = true },
             cntrls,
             new CInput {
                 KeyMap = {
@@ -90,10 +90,10 @@ namespace CG_A2.Scenes {
                     controls["Turn"] = 0.0f;
                 }
             },
-            new CModel { Model = model, IsTarget = true }            
+            new CModel { Model = model, IsTarget = true }
         );
 
-//        this.cyl = model;
+        this.cyl = humanChar;
 
         AddEntity(humanChar);
 
@@ -323,16 +323,21 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
     private void CreateTree(float X, float Y, float Z){
         var model = new Entity();
+
+        var T = Matrix.Identity;
+
+
         String modelPath = null;
 
         if(random.NextDouble() > 0.2f){
             modelPath = "Models/environmentmodel" + random.Next(1, 3);
+            T = Matrix.CreateScale(2.0f);
         }else{
             modelPath = "Models/environmentmodel" + random.Next(3, 5);
         }
         model.AddComponents(
             new CBody { Position = new Vector3(X, Y, Z), Heading = (float)random.NextDouble()},
-            new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false }
+            new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false, Transform = T }
         );
 
         AddEntity(model);
@@ -363,7 +368,9 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         List<ModelMesh> listaModelMesh = new List<ModelMesh>();
         listaModelMesh.Add(modelMesh);
         
-        listaMeshDelar.ForEach((ModelMeshPart obj) => obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice));
+        listaMeshDelar.ForEach((ModelMeshPart obj) => {
+            obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice);
+        });
 
         Model m = new Model(Game1.Inst.GraphicsDevice, listaModelBen, listaModelMesh);
         
