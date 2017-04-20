@@ -44,6 +44,7 @@ public class RenderingSubsystem: Subsystem {
         base.Draw(t, dt);
 
         // Ritar denna först pga att den stänger av z-axeln när den ritar.
+        bEffect.LightingEnabled = false;
         skyBox.Draw(t, dt, bEffect);
 
         foreach (var entity in Scene.GetEntities<CModel>()) {
@@ -111,6 +112,10 @@ public class RenderingSubsystem: Subsystem {
             foreach (var mesh in model.Model.Meshes) {
                 foreach (BasicEffect effect in mesh.Effects) {
                     effect.EnableDefaultLighting();
+                    bEffect.LightingEnabled = true;
+                    bEffect.VertexColorEnabled = true;
+                    //bEffect.DiffuseColor = Color.Cyan.ToVector3();
+
                     effect.World = transforms[mesh.ParentBone.Index] * m;
                     effect.View = Camera.ViewMatrix();
                     effect.Projection = Camera.Projection;
