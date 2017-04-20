@@ -43,9 +43,9 @@ namespace CG_A2.Scenes {
 
         System.Console.WriteLine($"{z}");
 
-        z += 2.0f;
+        z += 1.0f;
 
-        b.Position.Y += (z - b.Position.Y) * dt * 1.0f;
+        b.Position.Y += (z - b.Position.Y) * dt * 2.0f;
 
         if (b.Position.Y < z) {
             b.Position.Y = z;
@@ -417,7 +417,7 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         mpLLegList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
 
         Model m = new Model(Game1.Inst.GraphicsDevice, modelBones, modelMeshes);
-        
+
         return m;
     }
 }
