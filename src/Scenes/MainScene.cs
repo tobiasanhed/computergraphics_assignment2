@@ -341,28 +341,31 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
     private Model CreateBoxFigure(){
 
 
-        var body = new BoxMesh();
-        var mmpBody = new ModelMeshPart();
-        var mbBody = new ModelBone();
+        var body      = new BoxMesh();
+        var meshDelar = new ModelMeshPart();
 
-        mmpBody.IndexBuffer = body.IB;
-        mmpBody.VertexBuffer = body.VB;
-        System.Diagnostics.Debug.Assert(Game1.Inst != null);
-        System.Diagnostics.Debug.Assert(Game1.Inst.GraphicsDevice != null);
-        mmpBody.Effect = new BasicEffect(Game1.Inst.GraphicsDevice);
+        meshDelar.IndexBuffer  = body.IB;
+        meshDelar.VertexBuffer = body.VB;
 
-        List<ModelMeshPart> mmp = new List<ModelMeshPart>();
-        mmp.Add(mmpBody);
+        List<ModelMeshPart> listaMeshDelar = new List<ModelMeshPart>();
+        listaMeshDelar.Add(meshDelar);
 
 
-        List<ModelBone> mb = new List<ModelBone>();
-        mb.Add(mbBody);
+        var modelMesh = new ModelMesh(Game1.Inst.GraphicsDevice, listaMeshDelar);
 
+        var modelBen = new ModelBone();
+        modelBen.AddMesh(modelMesh);        
+        modelMesh.ParentBone = modelBen;
 
-        List<ModelMesh> mm = new List<ModelMesh>();
-        mm.Add(new ModelMesh(Game1.Inst.GraphicsDevice, mmp));
+        List<ModelBone> listaModelBen = new List<ModelBone>();
+        listaModelBen.Add(modelBen);
 
-        Model m = new Model(Game1.Inst.GraphicsDevice, mb, mm);
+        List<ModelMesh> listaModelMesh = new List<ModelMesh>();
+        listaModelMesh.Add(modelMesh);
+        
+        listaMeshDelar.ForEach((ModelMeshPart obj) => obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice));
+
+        Model m = new Model(Game1.Inst.GraphicsDevice, listaModelBen, listaModelMesh);
         
         return m;
     }
