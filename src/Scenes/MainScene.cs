@@ -17,6 +17,7 @@ namespace CG_A2.Scenes {
 
     using static System.Math;
     using System;
+    using CG_A2.Utils;
 
     /*--------------------------------------
      * CLASSES
@@ -36,12 +37,13 @@ namespace CG_A2.Scenes {
                       new     LogicSubsystem(),
                       new RenderingSubsystem());
         
-        var model = new Entity();
+        var humanChar = new Entity();
         
         var cntrls = new CControls { };
         var controls = cntrls.Controls;
+        Model model = CreateBoxFigure();
 
-        model.AddComponents(
+        humanChar.AddComponents(
             new CBody { Velocity = new Vector3(0f, 0f, 1.0f) },
             cntrls,
             new CInput {
@@ -64,10 +66,10 @@ namespace CG_A2.Scenes {
                     controls["Turn"] = 0.0f;
                 }
             },
-            new CModel { Model = Game1.Inst.Content.Load<Model>("Models/untitled"), IsTarget = true }            
+            new CModel { Model = model, IsTarget = true }            
         );
 
-        AddEntity(model);
+        AddEntity(humanChar);
 
         //var chopper = new Entity();
 
@@ -286,14 +288,48 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
     private void CreateTree(float X, float Y, float Z){
         var model = new Entity();
-        var modelPath = "Models/environmentmodel" + random.Next(1,4);
+        String modelPath = null;
 
+        if(random.NextDouble() > 0.2f){
+            modelPath = "Models/environmentmodel" + random.Next(1, 3);
+        }else{
+            modelPath = "Models/environmentmodel" + random.Next(3, 5);
+        }
         model.AddComponents(
             new CBody { Position = new Vector3(X, Y, Z), Heading = (float)random.NextDouble()},
             new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false }            
         );
 
         AddEntity(model);        
+    }
+
+    private Model CreateBoxFigure(){
+
+
+        var body = new BoxMesh();
+        var mmpBody = new ModelMeshPart();
+        var mbBody = new ModelBone();
+
+        mmpBody.IndexBuffer = body.IB;
+        mmpBody.VertexBuffer = body.VB;
+        System.Diagnostics.Debug.Assert(Game1.Inst != null);
+        System.Diagnostics.Debug.Assert(Game1.Inst.GraphicsDevice != null);
+        mmpBody.Effect = new BasicEffect(Game1.Inst.GraphicsDevice);
+
+        List<ModelMeshPart> mmp = new List<ModelMeshPart>();
+        mmp.Add(mmpBody);
+
+
+        List<ModelBone> mb = new List<ModelBone>();
+        mb.Add(mbBody);
+
+
+        List<ModelMesh> mm = new List<ModelMesh>();
+        mm.Add(new ModelMesh(Game1.Inst.GraphicsDevice, mmp));
+
+        Model m = new Model(Game1.Inst.GraphicsDevice, mb, mm);
+        
+        return m;
     }
 }
 
