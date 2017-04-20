@@ -41,8 +41,8 @@ public class ControlsSubsystem: Subsystem {
             // TODO: This is a hack lol.
             if (controls.Controls.ContainsKey("Up") && controls.Controls["Up"] != 0.0) {
                 var body = entity.GetComponent<CBody>();
-                body.Velocity.X += (float)Math.Cos(body.Heading)*30.0f*dt * controls.Controls["Up"];
-                body.Velocity.Z += (float)Math.Sin(body.Heading)*30.0f*dt * controls.Controls["Up"];
+                body.Velocity.X += (float)Math.Cos(body.Heading)*100.0f*dt * controls.Controls["Up"];
+                body.Velocity.Z += (float)Math.Sin(body.Heading)*100.0f*dt * controls.Controls["Up"];
 
             }
         }

@@ -93,7 +93,7 @@ public class RenderingSubsystem: Subsystem {
                 p.Y = 0; // Target too because it was really ugly otherwise
 
                 ((LookAtCamera)Camera).Target = p;
-                ((LookAtCamera)Camera).Position = c;
+                ((LookAtCamera)Camera).Position += (c - ((LookAtCamera)Camera).Position)*dt*2.0f;
 
                 var temp1 = transforms[1];
                 transforms[1].Translation = Vector3.Zero;
@@ -104,7 +104,7 @@ public class RenderingSubsystem: Subsystem {
                 transforms[2].Translation = Vector3.Zero;
                 transforms[2] *= Matrix.CreateRotationX(t * b.Velocity.X * 0.1f);
                 transforms[2].Translation = temp2.Translation;
-            
+
             }
 
 

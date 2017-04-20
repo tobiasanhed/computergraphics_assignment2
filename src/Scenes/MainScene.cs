@@ -43,7 +43,7 @@ namespace CG_A2.Scenes {
 
         //System.Console.WriteLine($"{z}");
 
-        z += 1.0f;
+        z += 0.0f;
 
         b.Position.Y += (z - b.Position.Y) * dt * 2.0f;
 
@@ -220,7 +220,7 @@ namespace CG_A2.Scenes {
 
                 var v0 = CreateHeightmapVertex(pixels, heightmap.Width, heightmap.Height, i*q, j*q);
                 if(random.NextDouble() < 0.0001){
-                    //CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
+                    CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
                 }
                 vertices.Add(v0);
             }
@@ -391,7 +391,7 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         boneRLeg.Index          = 1;
         boneRLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(2f, 0f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f);
         boneRLeg.ModelTransform = Matrix.Identity;
-        
+
         boneRLeg.AddMesh(meshRLeg);
         meshRLeg.ParentBone     = boneRLeg;
 
