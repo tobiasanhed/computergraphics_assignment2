@@ -79,8 +79,8 @@ public class RenderingSubsystem: Subsystem {
                 //var ta = ((LookAtCamera)Camera).Target;
                 var p = b.Position;
                 var c = ((LookAtCamera)Camera).Position;
-                var dist = 60f;
-                var yDist = -40f;
+                var dist = 30f;
+                var yDist = -20f;
                 var h = b.Heading;
 
                 // Vi positionerar kamera utifrån karaktärens heading (h), p = karaktärerns position, c = kamerans position, t = kamerans target, dist = avstånd till objektet
@@ -89,15 +89,18 @@ public class RenderingSubsystem: Subsystem {
 
                 c = Vector3.Subtract(p, new Vector3((float)(dist * Math.Sin(h + Math.PI * 0.5f)), yDist, (float)((-dist) * Math.Cos(h + Math.PI * 0.5f))));
 
+                c.Y = -yDist; // Lock camera to given height
+                p.Y = 0; // Target too because it was really ugly otherwise
+
                 ((LookAtCamera)Camera).Target = p;
                 ((LookAtCamera)Camera).Position = c;
-    
+
                 /*var temp = transforms[3];
                 transforms[1] *= Matrix.CreateRotationY(t*20f);
                 transforms[3] *= Matrix.CreateTranslation(-transforms[3].M41, -transforms[3].M42, -transforms[3].M43);
                 transforms[3] *= Matrix.CreateRotationX(t*-20f);
                 transforms[3] *= Matrix.CreateTranslation(temp.M41, temp.M42, temp.M43);*/
-            }            
+            }
 
 
             foreach (var mesh in model.Model.Meshes) {
