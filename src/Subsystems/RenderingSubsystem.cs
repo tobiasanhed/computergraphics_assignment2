@@ -91,14 +91,13 @@ public class RenderingSubsystem: Subsystem {
 
                 ((LookAtCamera)Camera).Target = p;
                 ((LookAtCamera)Camera).Position = c;
-
-                var temp = transforms[3];
-                //transforms[1] *= Matrix.CreateRotationY(t*20f);
-                //transforms[3] *= Matrix.CreateTranslation(-transforms[3].M41, -transforms[3].M42, -transforms[3].M43);
-                //transforms[3] *= Matrix.CreateRotationX(t*-20f);
-                //transforms[3] *= Matrix.CreateTranslation(temp.M41, temp.M42, temp.M43);
-            }
-
+    
+                /*var temp = transforms[3];
+                transforms[1] *= Matrix.CreateRotationY(t*20f);
+                transforms[3] *= Matrix.CreateTranslation(-transforms[3].M41, -transforms[3].M42, -transforms[3].M43);
+                transforms[3] *= Matrix.CreateRotationX(t*-20f);
+                transforms[3] *= Matrix.CreateTranslation(temp.M41, temp.M42, temp.M43);*/
+            }            
 
 
             foreach (var mesh in model.Model.Meshes) {
