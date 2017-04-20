@@ -46,10 +46,17 @@ public class RenderingSubsystem: Subsystem {
         // Ritar denna först pga att den stänger av z-axeln när den ritar.
         skyBox.Draw(t, dt, bEffect);
 
+        var viewFrustum = new BoundingFrustum(Camera.ViewMatrix() * Camera.Projection);
+
         foreach (var entity in Scene.GetEntities<CModel>()) {
             var model = entity.GetComponent<CModel>();
             var control = entity.GetComponent<CControls>();
             var b = entity.GetComponent<CBody>();
+
+            var bs = new BoundingSphere(b.Position, b.BoundingRadius);
+            if (!viewFrustum.Intersects(bs)) {
+                continue;
+            }
 
             var tilt2 = Matrix.Identity;
             if(control != null && control.Controls.ContainsKey("Turn")){
@@ -91,13 +98,13 @@ public class RenderingSubsystem: Subsystem {
 
                 ((LookAtCamera)Camera).Target = p;
                 ((LookAtCamera)Camera).Position = c;
-    
+
                 /*var temp = transforms[3];
                 transforms[1] *= Matrix.CreateRotationY(t*20f);
                 transforms[3] *= Matrix.CreateTranslation(-transforms[3].M41, -transforms[3].M42, -transforms[3].M43);
                 transforms[3] *= Matrix.CreateRotationX(t*-20f);
                 transforms[3] *= Matrix.CreateTranslation(temp.M41, temp.M42, temp.M43);*/
-            }            
+            }
 
 
             foreach (var mesh in model.Model.Meshes) {
@@ -115,7 +122,7 @@ public class RenderingSubsystem: Subsystem {
 
 
 
-        var viewFrustum = new BoundingFrustum(Camera.ViewMatrix() * Camera.Projection);
+        viewFrustum = new BoundingFrustum(Camera.ViewMatrix() * Camera.Projection);
 
 
         foreach (var entity in Scene.GetEntities<CHeightmap>()) {
