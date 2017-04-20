@@ -10,8 +10,8 @@ public class CBody: Component {
     public Vector3 Position;
     public Vector3 Velocity;
     public float Heading;
-    public BoundingGeometry BoundingGeometry;
-
+    public float BoundingRadius { get; set; } = 3.0f;
+    public bool Movable { get; set; } = false;
 }
 
 }
