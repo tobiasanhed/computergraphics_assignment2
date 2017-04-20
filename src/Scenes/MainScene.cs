@@ -28,7 +28,31 @@ namespace CG_A2.Scenes {
      * PUBLIC METHODS
      *------------------------------------*/
     private Random random = new Random();
-    
+
+    private Entity cyl;
+
+    public override void Draw(float t, float dt) {
+        base.Draw(t, dt);
+
+
+        var b = cyl.GetComponent<CBody>();
+        var x = (int)(6.0f*b.Position.X/(1.0f*1.0f));
+        var y = (int)(6.0f*b.Position.Z/(1.0f*1.0f));
+        System.Console.WriteLine($"{x} {y}");
+        var z = 9.0f*-4.0f*GetSmoothedZ(pixels, hmWidth, hmHeight, x+hmWidth/2, y+hmHeight/2);
+
+        System.Console.WriteLine($"{z}");
+
+        z += 2.0f;
+
+        b.Position.Y += (z - b.Position.Y) * dt * 1.0f;
+
+        if (b.Position.Y < z) {
+            b.Position.Y = z;
+        }
+
+    }
+
     /// <summary>Performs initialization logic.</summary>
     public override void Init() {
     	AddSubsystems(new      BodySubsystem(),
@@ -69,7 +93,11 @@ namespace CG_A2.Scenes {
             new CModel { Model = model, IsTarget = true }            
         );
 
+//        this.cyl = model;
+
         AddEntity(humanChar);
+
+
 
         //var chopper = new Entity();
 
@@ -147,6 +175,8 @@ namespace CG_A2.Scenes {
             }
         }
 
+        if (n == 0) return 0;
+
         return z/n;
     }
 
@@ -166,10 +196,15 @@ namespace CG_A2.Scenes {
         };
     }
 
+    private Color[] pixels;
+    private int hmWidth;
+    private int hmHeight;
     private void LoadHeightmap() {
         var heightmap = Game1.Inst.Content.Load<Texture2D>("Textures/US_Canyon");
         var indices   = new List<int>();
-        var pixels    = new Color[heightmap.Width*heightmap.Height];
+        this.pixels    = new Color[heightmap.Width*heightmap.Height];
+        this.hmWidth = heightmap.Width;
+        this.hmHeight = heightmap.Height;
         var vertices  = new List<VertexPositionNormalTexture>();
 
         // Read heightmap color data into the pixels array.
@@ -182,9 +217,9 @@ namespace CG_A2.Scenes {
         for (var j = 0; j < heightmap.Height/q; j++) {
             for (var i = 0; i < heightmap.Width/q; i++) {
                 // skapa triangel med index 0, 1, 2
-                
+
                 var v0 = CreateHeightmapVertex(pixels, heightmap.Width, heightmap.Height, i*q, j*q);
-                if(random.NextDouble() < 0.001){
+                if(random.NextDouble() < 0.0001){
                     CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
                 }
                 vertices.Add(v0);
@@ -297,10 +332,10 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         }
         model.AddComponents(
             new CBody { Position = new Vector3(X, Y, Z), Heading = (float)random.NextDouble()},
-            new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false }            
+            new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false }
         );
 
-        AddEntity(model);        
+        AddEntity(model);
     }
 
     private Model CreateBoxFigure(){
