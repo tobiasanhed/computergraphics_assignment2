@@ -318,11 +318,18 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
     private void CreateTree(float X, float Y, float Z){
         var model = new Entity();
-        var modelPath = "Models/environmentmodel" + random.Next(1,4);
+        var kk = random.Next(1,4);
+        var modelPath = "Models/environmentmodel" + kk;
+
+        var T = Matrix.Identity;
+        if (kk == 1 || kk == 2) {
+            T = Matrix.CreateScale(2.0f);
+        }
+
 
         model.AddComponents(
             new CBody { Position = new Vector3(X, Y, Z), Heading = (float)random.NextDouble()},
-            new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false }
+            new CModel { Model = Game1.Inst.Content.Load<Model>(modelPath), IsTarget = false, Transform = T }
         );
 
         AddEntity(model);
