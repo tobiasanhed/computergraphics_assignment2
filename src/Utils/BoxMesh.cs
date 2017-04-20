@@ -25,24 +25,10 @@ public class BoxMesh {
     private static readonly Vector3 BACK_BOTTOM_LEFT   = new Vector3(-0.5f, -0.5f, -0.5f);
     private static readonly Vector3 BACK_BOTTOM_RIGHT  = new Vector3(0.5f, -0.5f, -0.5f);
 
-    /*private static readonly Texture2D TEXTURE_1      = Game1.Inst.Content.Load<Texture2D>("Textures/skybox1"); 
-    private static readonly Texture2D TEXTURE_2      = Game1.Inst.Content.Load<Texture2D>("Textures/skybox2"); 
-    private static readonly Texture2D TEXTURE_3      = Game1.Inst.Content.Load<Texture2D>("Textures/skybox3"); 
-    private static readonly Texture2D TEXTURE_4      = Game1.Inst.Content.Load<Texture2D>("Textures/skybox4"); 
-    private static readonly Texture2D TEXTURE_TOP    = Game1.Inst.Content.Load<Texture2D>("Textures/skyboxtop"); 
-    private static readonly Texture2D TEXTURE_BOTTOM = Game1.Inst.Content.Load<Texture2D>("Textures/skyboxbottom");
-*/
-    // Normals
-    /*private static readonly Vector3 RIGHT    = new Vector3( 1,  0,  0); // +X
-    private static readonly Vector3 LEFT     = new Vector3(-1,  0,  0); // -X
-    private static readonly Vector3 UP       = new Vector3( 0,  1,  0); // +Y
-    private static readonly Vector3 DOWN     = new Vector3( 0, -1,  0); // -Y
-    private static readonly Vector3 FORWARD  = new Vector3( 0,  0,  1); // +Z
-    private static readonly Vector3 BACKWARD = new Vector3( 0,  0, -1); // -Z
-*/
+    private Color color;
 
-
-    public BoxMesh() {
+    public BoxMesh(Color color) {
+        this.color = color;
 
         SetUpVertices();
         SetUpVertexBuffer();
@@ -56,52 +42,52 @@ public class BoxMesh {
         List<VertexPositionColor> vertexList = new List<VertexPositionColor>(36);
 
         // Front face
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, Color.Black));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  color));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     color));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, color));
 
         // Top facen
-        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    Color.Black));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      color));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    color));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     color));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      color));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     color));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    color));
 
         // Right face
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  Color.Black));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, color));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_RIGHT,    color));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  color));
 
         // Bottom face
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  Color.Black));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_RIGHT, color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  color));
 
         // Left face
-        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  Color.Black));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   color));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      color));
+        vertexList.Add(new VertexPositionColor(FRONT_TOP_LEFT,     color));
+        vertexList.Add(new VertexPositionColor(FRONT_BOTTOM_LEFT,  color));
 
         // Back face
-        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      Color.Black));
-        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   Color.Black));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_RIGHT,  color));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_RIGHT,     color));
+        vertexList.Add(new VertexPositionColor(BACK_TOP_LEFT,      color));
+        vertexList.Add(new VertexPositionColor(BACK_BOTTOM_LEFT,   color));
 
         Vertices = vertexList.ToArray(); 
     }

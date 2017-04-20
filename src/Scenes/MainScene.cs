@@ -346,36 +346,77 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
     private Model CreateBoxFigure(){
 
 
-        var body      = new BoxMesh();
-        var meshDelar = new ModelMeshPart();
+        var body     = new BoxMesh(Color.Blue);
+        var rightLeg = new BoxMesh(Color.Black);
+        var leftLeg  = new BoxMesh(Color.Green);
+        var mpBody   = new ModelMeshPart();
+        var mpRLeg   = new ModelMeshPart();
+        var mpLLeg   = new ModelMeshPart();
 
-        meshDelar.IndexBuffer  = body.IB;
-        meshDelar.VertexBuffer = body.VB;
-        meshDelar.PrimitiveCount = body.Vertices.Length / 3;
-        meshDelar.NumVertices = body.Vertices.Length;
+        mpBody.IndexBuffer    = body.IB;
+        mpBody.VertexBuffer   = body.VB;
+        mpBody.PrimitiveCount = body.Vertices.Length / 3;
+        mpBody.NumVertices    = body.Vertices.Length;
 
-        List<ModelMeshPart> listaMeshDelar = new List<ModelMeshPart>();
-        listaMeshDelar.Add(meshDelar);
+        mpRLeg.IndexBuffer    = rightLeg.IB;
+        mpRLeg.VertexBuffer   = rightLeg.VB;
+        mpRLeg.PrimitiveCount = rightLeg.Vertices.Length / 3;
+        mpRLeg.NumVertices    = rightLeg.Vertices.Length;
 
+        mpLLeg.IndexBuffer    = leftLeg.IB;
+        mpLLeg.VertexBuffer   = leftLeg.VB;
+        mpLLeg.PrimitiveCount = leftLeg.Vertices.Length / 3;
+        mpLLeg.NumVertices    = leftLeg.Vertices.Length;
+
+        List<ModelMeshPart> mpBodyList = new List<ModelMeshPart>();
+        mpBodyList.Add(mpBody);
+
+        List<ModelMeshPart> mpRLegList = new List<ModelMeshPart>();
+        mpRLegList.Add(mpBody);
+
+        List<ModelMeshPart> mpLLegList = new List<ModelMeshPart>();
+        mpLLegList.Add(mpBody);
+
+        var meshBody = new ModelMesh(Game1.Inst.GraphicsDevice, mpBodyList);
+        var meshRLeg = new ModelMesh(Game1.Inst.GraphicsDevice, mpRLegList);
+        var meshLLeg = new ModelMesh(Game1.Inst.GraphicsDevice, mpLLegList);
         
-        var modelMesh = new ModelMesh(Game1.Inst.GraphicsDevice, listaMeshDelar);
-        var modelBen = new ModelBone();
-        modelBen.Transform = Matrix.Identity;
-        modelBen.ModelTransform = Matrix.Identity;
-        modelBen.AddMesh(modelMesh);        
-        modelMesh.ParentBone = modelBen;
-
-        List<ModelBone> listaModelBen = new List<ModelBone>();
-        listaModelBen.Add(modelBen);
-
-        List<ModelMesh> listaModelMesh = new List<ModelMesh>();
-        listaModelMesh.Add(modelMesh);
+        var boneBody            = new ModelBone();
+        boneBody.Transform      = Matrix.Identity;
+        boneBody.ModelTransform = Matrix.Identity;
         
-        listaMeshDelar.ForEach((ModelMeshPart obj) => {
-            obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice);
-        });
+        boneBody.AddMesh(meshBody);        
+        meshBody.ParentBone = boneBody;
 
-        Model m = new Model(Game1.Inst.GraphicsDevice, listaModelBen, listaModelMesh);
+        var boneRLeg            = new ModelBone();
+        boneRLeg.Transform      = Matrix.Identity;
+        boneRLeg.ModelTransform = Matrix.Identity;
+        
+        boneRLeg.AddMesh(meshRLeg);        
+        meshRLeg.ParentBone = boneRLeg;
+
+        var boneLLeg            = new ModelBone();
+        boneLLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(10f, 10f, 0);
+        boneLLeg.ModelTransform = Matrix.Identity;
+
+        boneLLeg.AddMesh(meshLLeg);        
+        meshLLeg.ParentBone = boneLLeg;
+
+        List<ModelBone> modelBones = new List<ModelBone>();
+        modelBones.Add(boneBody);
+        modelBones.Add(boneRLeg);
+        modelBones.Add(boneLLeg);
+
+        List<ModelMesh> modelMeshes = new List<ModelMesh>();
+        modelMeshes.Add(meshBody);
+        modelMeshes.Add(meshRLeg);
+        modelMeshes.Add(meshLLeg);
+        
+        mpBodyList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
+        mpRLegList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
+        mpLLegList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
+
+        Model m = new Model(Game1.Inst.GraphicsDevice, modelBones, modelMeshes);
         
         return m;
     }
