@@ -90,7 +90,7 @@ namespace CG_A2.Scenes {
                     controls["Turn"] = 0.0f;
                 }
             },
-            new CModel { Model = model, IsTarget = true }
+            new CModel { Model = model, IsTarget = true, Transform = Matrix.CreateScale(2.0f) }
         );
 
         this.cyl = humanChar;
@@ -351,14 +351,17 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
         meshDelar.IndexBuffer  = body.IB;
         meshDelar.VertexBuffer = body.VB;
+        meshDelar.PrimitiveCount = body.Vertices.Length / 3;
+        meshDelar.NumVertices = body.Vertices.Length;
 
         List<ModelMeshPart> listaMeshDelar = new List<ModelMeshPart>();
         listaMeshDelar.Add(meshDelar);
 
-
+        
         var modelMesh = new ModelMesh(Game1.Inst.GraphicsDevice, listaMeshDelar);
-
         var modelBen = new ModelBone();
+        modelBen.Transform = Matrix.Identity;
+        modelBen.ModelTransform = Matrix.Identity;
         modelBen.AddMesh(modelMesh);        
         modelMesh.ParentBone = modelBen;
 
