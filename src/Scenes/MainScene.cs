@@ -38,10 +38,10 @@ namespace CG_A2.Scenes {
         var b = cyl.GetComponent<CBody>();
         var x = (int)(6.0f*b.Position.X/(1.0f*1.0f));
         var y = (int)(6.0f*b.Position.Z/(1.0f*1.0f));
-        System.Console.WriteLine($"{x} {y}");
+        //System.Console.WriteLine($"{x} {y}");
         var z = 9.0f*-4.0f*GetSmoothedZ(pixels, hmWidth, hmHeight, x+hmWidth/2, y+hmHeight/2);
 
-        System.Console.WriteLine($"{z}");
+        //System.Console.WriteLine($"{z}");
 
         z += 1.0f;
 
@@ -220,7 +220,7 @@ namespace CG_A2.Scenes {
 
                 var v0 = CreateHeightmapVertex(pixels, heightmap.Width, heightmap.Height, i*q, j*q);
                 if(random.NextDouble() < 0.0001){
-                    CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
+                    //CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
                 }
                 vertices.Add(v0);
             }
@@ -344,8 +344,6 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
     }
 
     private Model CreateBoxFigure(){
-
-
         var body     = new BoxMesh(Color.Blue);
         var rightLeg = new BoxMesh(Color.Black);
         var leftLeg  = new BoxMesh(Color.Green);
@@ -372,34 +370,37 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         mpBodyList.Add(mpBody);
 
         List<ModelMeshPart> mpRLegList = new List<ModelMeshPart>();
-        mpRLegList.Add(mpBody);
+        mpRLegList.Add(mpRLeg);
 
         List<ModelMeshPart> mpLLegList = new List<ModelMeshPart>();
-        mpLLegList.Add(mpBody);
+        mpLLegList.Add(mpLLeg);
 
         var meshBody = new ModelMesh(Game1.Inst.GraphicsDevice, mpBodyList);
         var meshRLeg = new ModelMesh(Game1.Inst.GraphicsDevice, mpRLegList);
         var meshLLeg = new ModelMesh(Game1.Inst.GraphicsDevice, mpLLegList);
-        
+
         var boneBody            = new ModelBone();
+        boneBody.Index          = 0;
         boneBody.Transform      = Matrix.Identity;
         boneBody.ModelTransform = Matrix.Identity;
-        
-        boneBody.AddMesh(meshBody);        
-        meshBody.ParentBone = boneBody;
+
+        boneBody.AddMesh(meshBody);
+        meshBody.ParentBone     = boneBody;
 
         var boneRLeg            = new ModelBone();
-        boneRLeg.Transform      = Matrix.Identity;
+        boneRLeg.Index          = 1;
+        boneRLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(5f, 0f, 0);
         boneRLeg.ModelTransform = Matrix.Identity;
-        
-        boneRLeg.AddMesh(meshRLeg);        
-        meshRLeg.ParentBone = boneRLeg;
+
+        boneRLeg.AddMesh(meshRLeg);
+        meshRLeg.ParentBone     = boneRLeg;
 
         var boneLLeg            = new ModelBone();
-        boneLLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(10f, 10f, 0);
+        boneLLeg.Index          = 2;
+        boneLLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(-5f, 0f, 0);
         boneLLeg.ModelTransform = Matrix.Identity;
 
-        boneLLeg.AddMesh(meshLLeg);        
+        boneLLeg.AddMesh(meshLLeg);
         meshLLeg.ParentBone = boneLLeg;
 
         List<ModelBone> modelBones = new List<ModelBone>();
@@ -411,12 +412,14 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         modelMeshes.Add(meshBody);
         modelMeshes.Add(meshRLeg);
         modelMeshes.Add(meshLLeg);
-        
+
         mpBodyList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
         mpRLegList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
         mpLLegList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
 
         Model m = new Model(Game1.Inst.GraphicsDevice, modelBones, modelMeshes);
+
+        System.Console.WriteLine(m.Meshes.Count);
 
         return m;
     }
