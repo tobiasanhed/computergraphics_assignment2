@@ -44,7 +44,6 @@ public class RenderingSubsystem: Subsystem {
         base.Draw(t, dt);
 
         // Ritar denna först pga att den stänger av z-axeln när den ritar.
-        bEffect.LightingEnabled = false;
         skyBox.Draw(t, dt, bEffect);
 
         foreach (var entity in Scene.GetEntities<CModel>()) {
