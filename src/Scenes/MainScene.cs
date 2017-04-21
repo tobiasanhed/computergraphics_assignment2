@@ -220,7 +220,7 @@ namespace CG_A2.Scenes {
 
                 var v0 = CreateHeightmapVertex(pixels, heightmap.Width, heightmap.Height, i*q, j*q);
                 if(random.NextDouble() < 0.0001){
-                    //CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
+                    CreateTree(v0.Position.X, v0.Position.Y, v0.Position.Z);
                 }
                 vertices.Add(v0);
             }
