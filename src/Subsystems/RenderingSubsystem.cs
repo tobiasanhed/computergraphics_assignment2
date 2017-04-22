@@ -29,6 +29,11 @@ public class RenderingSubsystem: Subsystem {
     /*--------------------------------------
      * PUBLIC METHODS
      *------------------------------------*/
+    private const float MAXROTATION = MathHelper.PiOver4;
+    private const int ROTRIGHTLEG = 1;
+    private const int ROTLEFTLEG  = -1;
+    private bool dir = true;
+    private float rotation = 0;
     private BasicEffect bEffect = new BasicEffect(Game1.Inst.GraphicsDevice);
     private float turnDelta;
     private Texture2D groundTexture = Game1.Inst.Content.Load<Texture2D>("Textures/grass");
@@ -94,15 +99,31 @@ public class RenderingSubsystem: Subsystem {
 
                 ((LookAtCamera)Camera).Target = p;
                 ((LookAtCamera)Camera).Position = c;
+                
+                var rotSpeed = (float)Math.Sqrt((b.Velocity.X * b.Velocity.X) + (b.Velocity.Z * b.Velocity.Z)) * dt * 0.5f;
+
+                if (rotation < MAXROTATION){
+                    if(dir)
+                        rotation += rotSpeed;
+                    else
+                        rotation -= rotSpeed;
+                }else{
+                    if (!dir)
+                        rotation -= rotSpeed;
+                    else
+                        rotation += rotSpeed;
+                }
+                if (rotation > MAXROTATION || rotation < -MAXROTATION)
+                    dir = !dir;
 
                 var temp1 = transforms[1];
                 transforms[1].Translation = Vector3.Zero;
-                transforms[1] *= Matrix.CreateRotationX(t * b.Velocity.X * 0.1f);
+                transforms[1] *= Matrix.CreateRotationX(rotation * ROTLEFTLEG);
                 transforms[1].Translation = temp1.Translation;
 
                 var temp2 = transforms[2];
                 transforms[2].Translation = Vector3.Zero;
-                transforms[2] *= Matrix.CreateRotationX(t * b.Velocity.X * 0.1f);
+                transforms[2] *= Matrix.CreateRotationX(rotation * ROTRIGHTLEG);
                 transforms[2].Translation = temp2.Translation;
             
             }

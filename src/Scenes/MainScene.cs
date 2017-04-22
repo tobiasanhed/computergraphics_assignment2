@@ -389,7 +389,7 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
         var boneRLeg            = new ModelBone();
         boneRLeg.Index          = 1;
-        boneRLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(2f, 0f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f);
+        boneRLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(2f, -1f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f) * Matrix.CreateRotationX((float)Math.PI);
         boneRLeg.ModelTransform = Matrix.Identity;
         
         boneRLeg.AddMesh(meshRLeg);
@@ -397,7 +397,7 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
         var boneLLeg            = new ModelBone();
         boneLLeg.Index          = 2;
-        boneLLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(-2f, 0f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f);
+        boneLLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(-2f, -1f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f) * Matrix.CreateRotationX((float)Math.PI);
         boneLLeg.ModelTransform = Matrix.Identity;
 
         boneLLeg.AddMesh(meshLLeg);

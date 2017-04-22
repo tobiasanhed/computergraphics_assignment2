@@ -16,14 +16,14 @@ public class BoxMesh {
     public int[] Indices { get; set; }
     public IndexBuffer IB { get; set; }
     // TODO: Skapa dom utifrån 0.0 för att få rätt origo
-    private static readonly Vector3 FRONT_TOP_LEFT     = new Vector3(-0.5f, 0.5f, 0.5f);
-    private static readonly Vector3 FRONT_TOP_RIGHT    = new Vector3(0.5f, 0.5f, 0.5f);
-    private static readonly Vector3 FRONT_BOTTOM_LEFT  = new Vector3(-0.5f, -0.5f, 0.5f);
-    private static readonly Vector3 FRONT_BOTTOM_RIGHT = new Vector3(0.5f, -0.5f, 0.5f);
-    private static readonly Vector3 BACK_TOP_LEFT      = new Vector3(-0.5f, 0.5f, -0.5f);
-    private static readonly Vector3 BACK_TOP_RIGHT     = new Vector3(0.5f, 0.5f, -0.5f);
-    private static readonly Vector3 BACK_BOTTOM_LEFT   = new Vector3(-0.5f, -0.5f, -0.5f);
-    private static readonly Vector3 BACK_BOTTOM_RIGHT  = new Vector3(0.5f, -0.5f, -0.5f);
+    private static readonly Vector3 FRONT_TOP_LEFT     = new Vector3(-0.5f, 1, 0.5f);
+    private static readonly Vector3 FRONT_TOP_RIGHT    = new Vector3(0.5f,  1, 0.5f);
+    private static readonly Vector3 FRONT_BOTTOM_LEFT  = new Vector3(-0.5f, 0, 0.5f);
+    private static readonly Vector3 FRONT_BOTTOM_RIGHT = new Vector3(0.5f,  0, 0.5f);
+    private static readonly Vector3 BACK_TOP_LEFT      = new Vector3(-0.5f, 1, -0.5f);
+    private static readonly Vector3 BACK_TOP_RIGHT     = new Vector3(0.5f,  1, -0.5f);
+    private static readonly Vector3 BACK_BOTTOM_LEFT   = new Vector3(-0.5f, 0, -0.5f);
+    private static readonly Vector3 BACK_BOTTOM_RIGHT  = new Vector3(0.5f,  0, -0.5f);
 
     private Color color;
 
