@@ -43,7 +43,7 @@ namespace CG_A2.Scenes {
 
         //System.Console.WriteLine($"{z}");
 
-        z += 1.0f;
+        z += 0.0f;
 
         b.Position.Y += (z - b.Position.Y) * dt * 2.0f;
 
@@ -322,6 +322,8 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
     }
 
     private void CreateTree(float X, float Y, float Z){
+        Y -= 1.0f;
+
         var model = new Entity();
 
         var T = Matrix.Identity;
@@ -331,9 +333,10 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
         if(random.NextDouble() > 0.2f){
             modelPath = "Models/environmentmodel" + random.Next(1, 3);
-            T = Matrix.CreateScale(2.0f);
+            T = Matrix.CreateScale(2.5f);
         }else{
             modelPath = "Models/environmentmodel" + random.Next(3, 5);
+            T = Matrix.CreateScale(1.5f);
         }
         model.AddComponents(
             new CBody { Position = new Vector3(X, Y, Z), Heading = (float)random.NextDouble()},
@@ -391,7 +394,7 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         boneRLeg.Index          = 1;
         boneRLeg.Transform      = Matrix.Identity * Matrix.CreateTranslation(2f, -1f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f) * Matrix.CreateRotationX((float)Math.PI);
         boneRLeg.ModelTransform = Matrix.Identity;
-        
+
         boneRLeg.AddMesh(meshRLeg);
         meshRLeg.ParentBone     = boneRLeg;
 

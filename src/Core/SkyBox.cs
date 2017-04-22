@@ -21,8 +21,8 @@
 
     private Vector3 scale;
     private Vector3 position;
-    private Vector3 rotation = Vector3.Zero;
-    private Matrix objectWorld;
+    //private Vector3 rotation = Vector3.Zero;
+    //private Matrix objectWorld;
 
     private VertexPositionNormalTexture[] vertices;
     private VertexBuffer vb;

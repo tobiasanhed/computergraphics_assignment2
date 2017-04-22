@@ -37,7 +37,7 @@ public class RenderingSubsystem: Subsystem {
     private BasicEffect bEffect = new BasicEffect(Game1.Inst.GraphicsDevice);
     private float turnDelta;
     private Texture2D groundTexture = Game1.Inst.Content.Load<Texture2D>("Textures/grass");
-    private Texture2D pagaFaceTexture = Game1.Inst.Content.Load<Texture2D>("Textures/paga3");
+    //private Texture2D pagaFaceTexture = Game1.Inst.Content.Load<Texture2D>("Textures/paga3");
     private SkyBox skyBox = new SkyBox(new Vector3(1000, 1000, 1000), new Vector3(0, -100, 0));
     /// <summary>Performs draw logic specific to the subsystem.</summary>
     /// <param name="t">The total game time, in seconds.</param>
@@ -63,7 +63,7 @@ public class RenderingSubsystem: Subsystem {
             }
             var r = new Vector3(b.Velocity.Z, 0, -b.Velocity.X);
             r.Normalize();
-            var a = b.Velocity.Length() * 0.05f * 0.65f;
+            //var a = b.Velocity.Length() * 0.05f * 0.65f;
             var tilt = Matrix.Identity;//Matrix.CreateFromAxisAngle(r, a);
 
             Matrix T;
@@ -125,13 +125,17 @@ public class RenderingSubsystem: Subsystem {
                 transforms[2].Translation = Vector3.Zero;
                 transforms[2] *= Matrix.CreateRotationX(rotation * ROTRIGHTLEG);
                 transforms[2].Translation = temp2.Translation;
-            
+
             }
 
 
             foreach (var mesh in model.Model.Meshes) {
                 foreach (BasicEffect effect in mesh.Effects) {
                     effect.EnableDefaultLighting();
+                    bEffect.LightingEnabled = true;
+                    bEffect.VertexColorEnabled = true;
+                    //bEffect.DiffuseColor = Color.Cyan.ToVector3();
+
                     effect.World = transforms[mesh.ParentBone.Index] * m;
                     effect.View = Camera.ViewMatrix();
                     effect.Projection = Camera.Projection;
