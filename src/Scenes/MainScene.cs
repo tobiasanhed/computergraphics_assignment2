@@ -333,7 +333,7 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
 
         if(random.NextDouble() > 0.2f){
             modelPath = "Models/environmentmodel" + random.Next(1, 3);
-            T = Matrix.CreateScale(2.5f);
+            T = Matrix.CreateScale(4f * (float)random.NextDouble());
         }else{
             modelPath = "Models/environmentmodel" + random.Next(3, 5);
             T = Matrix.CreateScale(1.5f);
