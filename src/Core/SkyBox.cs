@@ -53,6 +53,7 @@
     private static readonly Vector3 DOWN     = new Vector3( 0, -1,  0); // -Y
     private static readonly Vector3 FORWARD  = new Vector3( 0,  0,  1); // +Z
     private static readonly Vector3 BACKWARD = new Vector3( 0,  0, -1); // -Z
+
     /*--------------------------------------
      * PUBLIC METHODS
      *------------------------------------*/

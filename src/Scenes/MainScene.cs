@@ -347,9 +347,9 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
     }
 
     private Model CreateBoxFigure(){
-        var body     = new BoxMesh(Color.Blue);
-        var rightLeg = new BoxMesh(Color.Black);
-        var leftLeg  = new BoxMesh(Color.Green);
+        var body     = new BoxMesh();
+        var rightLeg = new BoxMesh();
+        var leftLeg  = new BoxMesh();
         var mpBody   = new ModelMeshPart();
         var mpRLeg   = new ModelMeshPart();
         var mpLLeg   = new ModelMeshPart();
@@ -416,9 +416,30 @@ baseidx+i0]);il.Add(a0+    1);vl.Add(v[baseidx        +i1]); il.Add(a0+2);il    
         modelMeshes.Add(meshRLeg);
         modelMeshes.Add(meshLLeg);
 
-        mpBodyList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
-        mpRLegList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
-        mpLLegList.ForEach((ModelMeshPart obj) => { obj.Effect = new BasicEffect(Game1.Inst.GraphicsDevice); });
+        mpBodyList.ForEach((ModelMeshPart obj) => {
+            var effect = new BasicEffect(Game1.Inst.GraphicsDevice); 
+            effect.Texture = Game1.Inst.Content.Load<Texture2D>("Textures/paga2"); 
+            obj.Effect = effect;
+
+            effect.TextureEnabled = true;
+            effect.VertexColorEnabled = false;
+        });
+        mpRLegList.ForEach((ModelMeshPart obj) => { 
+            var effect = new BasicEffect(Game1.Inst.GraphicsDevice); 
+            effect.Texture = Game1.Inst.Content.Load<Texture2D>("Textures/checkerboard"); 
+            obj.Effect = effect; 
+
+            effect.TextureEnabled = true;
+            effect.VertexColorEnabled = false;
+        });
+        mpLLegList.ForEach((ModelMeshPart obj) => { 
+            var effect = new BasicEffect(Game1.Inst.GraphicsDevice); 
+            effect.Texture = Game1.Inst.Content.Load<Texture2D>("Textures/checkerboard"); 
+            obj.Effect = effect;
+
+            effect.TextureEnabled = true;
+            effect.VertexColorEnabled = false;
+        });
 
         Model m = new Model(Game1.Inst.GraphicsDevice, modelBones, modelMeshes);
 
