@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Core;
-using BoundingGeometries;
 
 public class CHeightmap: Component {
     public IndexBuffer IndexBuffer { get; set; }
