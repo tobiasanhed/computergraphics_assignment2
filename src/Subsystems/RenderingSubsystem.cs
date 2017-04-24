@@ -102,17 +102,11 @@ public class RenderingSubsystem: Subsystem {
                 
                 var rotSpeed = (float)Math.Sqrt((b.Velocity.X * b.Velocity.X) + (b.Velocity.Z * b.Velocity.Z)) * dt * 0.5f;
 
-                if (rotation < MAXROTATION){
-                    if(dir)
-                        rotation += rotSpeed;
-                    else
-                        rotation -= rotSpeed;
-                }else{
-                    if (!dir)
-                        rotation -= rotSpeed;
-                    else
-                        rotation += rotSpeed;
-                }
+                if(dir)
+                    rotation += rotSpeed;
+                else
+                    rotation -= rotSpeed;
+                
                 if (rotation > MAXROTATION || rotation < -MAXROTATION)
                     dir = !dir;
 
