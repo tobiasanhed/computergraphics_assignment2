@@ -112,7 +112,7 @@ public class Game1: Game {
 
         Content.RootDirectory = "Content";
         IsMouseVisible        = true;
-        Window.Title          = "Computer Graphics - Assignment 1";
+        Window.Title          = "Computer Graphics - Assignment 2";
 
         Graphics.PreferredBackBufferWidth  = 1920;
         Graphics.PreferredBackBufferHeight = 1080;
